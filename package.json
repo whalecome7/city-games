@@ -1,5 +1,5 @@
 {
-  "name": "home-page",
+  "name": "city-games",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "pinia": "^2.0.36",
+    "vant": "^4.4.0",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
   },
