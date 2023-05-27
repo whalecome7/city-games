@@ -3,6 +3,7 @@ import config from "@/config/app.config";
 import servers from "@/config/servers";
 import { showToast, showFailToast } from 'vant';
 import store from "@/store";
+import { useUserStore } from "@/stores/user";
 
 const getErrorMessage = (status: number) => {
   switch (status) {
@@ -40,20 +41,20 @@ const getErrorMessage = (status: number) => {
  * @param url
  * @param params
  * @param needToken
- * @param checkLanMode 局域网模式所影响的接口为true
  */
 const request = (
   method: string,
   url: string,
   params?: any,
   needToken = true,
-  checkLanMode = false
 ) => {
-  const token = localStorage.getItem("token");
+  const userStore = useUserStore()
+  // const token = localStorage.getItem("token");
+  const token = userStore.token
+
   const headers = {
     "Content-Type": "application/json",
     Authorization: needToken ? `Bearer ${token}` : "",
-    // Authorization: needToken ? `Bearer ${store.state.token}` : "",
   };
 
   const handlerError = (error: any, reject: any) => {
