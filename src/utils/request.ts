@@ -1,8 +1,7 @@
 import axios from "axios";
 import config from "@/config/app.config";
-import router from "@/router";
-// import { ElMessage, ElLoading } from "element-plus";
-import { platform as platformService } from "@/services/platform";
+import servers from "@/config/servers";
+import { showToast, showFailToast } from 'vant';
 import store from "@/store";
 
 const getErrorMessage = (status: number) => {
@@ -39,7 +38,6 @@ const getErrorMessage = (status: number) => {
  *
  * @param method
  * @param url
- * @param server
  * @param params
  * @param needToken
  * @param checkLanMode 局域网模式所影响的接口为true
@@ -47,7 +45,6 @@ const getErrorMessage = (status: number) => {
 const request = (
   method: string,
   url: string,
-  server: any,
   params?: any,
   needToken = true,
   checkLanMode = false
@@ -60,48 +57,22 @@ const request = (
   };
 
   const handlerError = (error: any, reject: any) => {
-    // ElLoading.service({ fullscreen: true }).close();
-    // ElLoading.service({ background: "rgb(0,0,0,0.0)" }).close();
-    // let message = "";
-    // // 网络断开时的提示
-    // if (!error.response) {
-    //   ElMessage({
-    //     offset: 150,
-    //     center: true,
-    //     type: "warning",
-    //     message: `网络连接错误`,
-    //   });
-    //   reject(error);
-    //   return;
-    // }
-    // if (error.response.data && error.response.data.message) {
-    //   message = error.response.data.message;
-    // } else {
-    //   message = getErrorMessage(error.response.status);
-    // }
-    // ElMessage({
-    //   offset: 150,
-    //   center: true,
-    //   type: "warning",
-    //   message,
-    //   onClose: () => {
-    //     if (
-    //       (error.response.status === 401 && needToken) ||
-    //       error.response.data?.data?.finish_exam
-    //     ) {
-    //       sessionStorage.clear();
-    //       router.push({
-    //         path: "/login",
-    //       });
-    //     }
-    //   },
-    // });
+    let message = "";
+    // 网络断开时的提示
+    if (!error.response) {
+      showFailToast('网络连接错误');
+      reject(error);
+      return;
+    }
+    if (error.response.data && error.response.data.message) {
+      message = error.response.data.message;
+    } else {
+      message = getErrorMessage(error.response.status);
+    }
+    showToast(message)
   };
   return new Promise<any>((resolve, reject) => {
-    let baseURL = config[server];
-    if (checkLanMode && store.state.isLan && store.state.proctorDomain) {
-      baseURL = store.state.proctorDomain;
-    }
+    let baseURL = config[servers.api];
     axios({
       method,
       headers,
@@ -113,8 +84,8 @@ const request = (
     } as any)
       .then((res: any) => {
         const data = res.data;
-        if (data.status_code !== undefined) {
-          if (data.status_code === 0) {
+        if (data.errCode !== undefined) {
+          if (data.errCode === 0) {
             resolve(data.data);
           } else {
             handlerError(res, reject);

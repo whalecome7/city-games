@@ -9,5 +9,5 @@ const envMap: any = {
   prod: prodConfig,
   test: testConfig,
 };
-const env = process.env.RELEASE_ENV || "devp";
+const env = 'prod'
 export default envMap[env];
