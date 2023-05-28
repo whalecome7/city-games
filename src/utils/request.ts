@@ -2,7 +2,6 @@ import axios from "axios";
 import config from "@/config/app.config";
 import servers from "@/config/servers";
 import { showToast, showFailToast } from 'vant';
-import store from "@/store";
 import { useUserStore } from "@/stores/user";
 
 const getErrorMessage = (status: number) => {

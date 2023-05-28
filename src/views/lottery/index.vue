@@ -249,7 +249,7 @@ onBeforeMount(() => {
   width: 100vw;
   height: 100vh;
   margin: 0;
-  background: url("./src/assets/images/lottery/bg.jpg") no-repeat;
+  background: url("@/assets/images/lottery/bg.jpg") no-repeat;
   background-size:100% 100%;
   background-attachment:fixed;
   position: relative;
@@ -282,14 +282,14 @@ onBeforeMount(() => {
   width: 80vw;
   height: 90vw;
   position: relative;
-  background: url("./src/assets/images/lottery/log-bg.png") no-repeat;
+  background: url("@/assets/images/lottery/log-bg.png") no-repeat;
   background-size: 100% 100%;
 }
 .log-empty-modal{
   width: 80vw;
   height: 90vw;
   position: relative;
-  background: url("./src/assets/images/lottery/log-empty-bg.png") no-repeat;
+  background: url("@/assets/images/lottery/log-empty-bg.png") no-repeat;
   background-size: 100% 100%;
 }
 .log-back-btn{
@@ -305,7 +305,7 @@ onBeforeMount(() => {
   width: 80vw;
   height: 90vw;
   position: relative;
-  background: url("./src/assets/images/lottery/prize-bg.png") no-repeat;
+  background: url("@/assets/images/lottery/prize-bg.png") no-repeat;
   background-size: 100% 100%;
   .make-prize-text{
     position: absolute;
@@ -317,14 +317,14 @@ onBeforeMount(() => {
   width: 80vw;
   height: 90vw;
   position: relative;
-  background: url("./src/assets/images/lottery/prize-empty-bg.png") no-repeat;
+  background: url("@/assets/images/lottery/prize-empty-bg.png") no-repeat;
   background-size: 100% 100%;
 }
 .prize-no-count-modal{
   width: 80vw;
   height: 90vw;
   position: relative;
-  background: url("./src/assets/images/lottery/prize-no-count.png") no-repeat;
+  background: url("@/assets/images/lottery/prize-no-count.png") no-repeat;
   background-size: 100% 100%;
 }
 </style>

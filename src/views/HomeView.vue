@@ -33,13 +33,13 @@ const jump = async () => {
 }
 
 onBeforeMount(async () => {
-  if(userStore.token){
-    const { resident_type } = await me()
-    if(resident_type){
-      // todo 是否自动登录
-      // router.push('/scenic-spots');
-    }
-  }
+  // todo 是否自动登录
+  // if(userStore.token){
+  //   const { resident_type } = await me()
+  //   if(resident_type){
+  //     router.push('/scenic-spots');
+  //   }
+  // }
 })
 
 </script>
@@ -92,7 +92,7 @@ onBeforeMount(async () => {
   width: 100vw;
   height: 100vh;
   margin: 0;
-  background: url("./src/assets/images/login/home.jpg") no-repeat;
+  background: url("@/assets/images/login/home.jpg") no-repeat;
   background-size:100% 100%;
   background-attachment:fixed;
   position: relative;
@@ -121,7 +121,7 @@ onBeforeMount(async () => {
 }
 .dv-start{
   text-align: center;
-  background: url(./src/assets/images/login/start-long-btn.png) no-repeat;
+  background: url(@/assets/images/login/start-long-btn.png) no-repeat;
   background-size: 100%;
   line-height: 37px;
   height: 40px;
@@ -132,7 +132,7 @@ onBeforeMount(async () => {
 }
 .dv-jump{
   text-align: center;
-  background: url(./src/assets/images/login/start-btn.png) no-repeat;
+  background: url(@/assets/images/login/start-btn.png) no-repeat;
   background-size: 100%;
   line-height: 37px;
   height: 40px;
@@ -144,7 +144,7 @@ onBeforeMount(async () => {
 }
 .go-back{
   text-align: center;
-  background: url(./src/assets/images/login/back-btn.png) no-repeat;
+  background: url(@/assets/images/login/back-btn.png) no-repeat;
   background-size: 100%;
   line-height: 37px;
   height: 40px;

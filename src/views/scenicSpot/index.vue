@@ -211,7 +211,7 @@ onBeforeMount(() => {
 .info-modal{
   width: 80vw;
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/info-modal.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/info-modal.png") no-repeat;
   background-size: 100% 100%;
   position: relative;
   .info-modal-back{
@@ -312,62 +312,62 @@ onBeforeMount(() => {
 
 .punch-in-modal-1{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-2{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-3{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-4{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-5{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-6{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-7{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-8{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-9{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-10{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-11{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-12{
   height: 500px;
-  background: url("./src/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
   background-size: 100% 100%;
 }
 
