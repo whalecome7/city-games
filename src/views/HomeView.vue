@@ -36,7 +36,8 @@ onBeforeMount(async () => {
   if(userStore.token){
     const { resident_type } = await me()
     if(resident_type){
-      router.push('/scenic-spots');
+      // todo 是否自动登录
+      // router.push('/scenic-spots');
     }
   }
 })

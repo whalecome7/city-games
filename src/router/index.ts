@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import scenicSpot from '../views/scenicSpot/index.vue'
+import ScenicSpot from '../views/scenicSpot/index.vue'
+import LotteryView from '../views/lottery/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,8 +21,13 @@ const router = createRouter({
     },
     {
       path: '/scenic-spots',
-      name: 'scenicSpot',
-      component: scenicSpot,
+      name: 'ScenicSpot',
+      component: ScenicSpot,
+    },
+    {
+      path: '/lottery',
+      name: 'LotteryView',
+      component: LotteryView,
     }
   ]
 } as any)

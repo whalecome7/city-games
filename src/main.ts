@@ -18,6 +18,7 @@ import {
 } from 'vant';
 import 'vant/lib/index.css';
 
+
 const app = createApp(App)
 
 app.use(createPinia())
@@ -30,5 +31,6 @@ app.use(Radio);
 app.use(VanImage);
 app.use(Popup);
 app.use(ConfigProvider);
+
 
 app.mount('#app')
