@@ -18,6 +18,8 @@ const login = async () => {
   userStore.updateToken(token);
   if(!resident_type){
     pageState.value = 2
+  }else{
+    router.push('/scenic-spots');
   }
 }
 
