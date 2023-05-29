@@ -31,3 +31,7 @@ export const openUserLottery = () => {
 export const getPrizeInfo = () => {
   return request('GET', '/lottery/getPrizeLogs')
 }
+
+export const getUserPunchInLogs = () => {
+  return request('GET', '/scenicSpots/getUserPunchInLogs')
+}

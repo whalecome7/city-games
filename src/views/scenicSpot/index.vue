@@ -15,25 +15,26 @@ import PunchInBack from '@/assets/images/scenicSpot/punchIn-back.png';
 import CardBack from '@/assets/images/scenicSpot/card-back.png';
 import CardSaveBtn from '@/assets/images/scenicSpot/card-save-btn.png';
 import Card1 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card2 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card3 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card4 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card5 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card6 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card7 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card8 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card9 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card10 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card11 from '@/assets/images/scenicSpot/card-1.jpg';
-import Card12 from '@/assets/images/scenicSpot/card-1.jpg';
+import Card2 from '@/assets/images/scenicSpot/card-2.jpg';
+import Card3 from '@/assets/images/scenicSpot/card-3.jpg';
+import Card4 from '@/assets/images/scenicSpot/card-4.jpg';
+import Card5 from '@/assets/images/scenicSpot/card-5.jpg';
+import Card6 from '@/assets/images/scenicSpot/card-6.jpg';
+import Card7 from '@/assets/images/scenicSpot/card-7.jpg';
+import Card8 from '@/assets/images/scenicSpot/card-8.jpg';
+import Card9 from '@/assets/images/scenicSpot/card-9.jpg';
+import Card10 from '@/assets/images/scenicSpot/card-10.jpg';
+import Card11 from '@/assets/images/scenicSpot/card-11.jpg';
+import Card12 from '@/assets/images/scenicSpot/card-12.jpg';
+import PunchInModalLottery from '@/assets/images/scenicSpot/punchIn-modal-lottery-btn.png';
 
 import { showToast, showSuccessToast } from 'vant';
 
 import { scenicSpotMap } from '@/utils/dataMap/scenicSpot';
 
-import { ref, onBeforeMount, watch } from 'vue';
+import { ref, onBeforeMount, watch, getCurrentInstance } from 'vue';
 
-import { getTodayScenicData, getUserLotteryInfo, userPunchIn } from '@/services';
+import { getTodayScenicData, getUserLotteryInfo, userPunchIn, getUserPunchInLogs } from '@/services';
 
 import { useRouter } from 'vue-router';
 
@@ -43,11 +44,11 @@ const showInfoModal = ref(false)
 const showPunchInModal = ref(false)
 const showPunchInCard = ref(false)
 const currentScenicSpotId = ref(0)
-
-const activeScenicSpotIds = ref([])
-const punchInSuccessScenicSpotIds = ref([])
+const currentScenicSpot = ref()
 
 const lotteryEnable = ref(false)
+
+const instance = getCurrentInstance()
 
 const cardImgMap = {
   1: Card1,
@@ -63,6 +64,8 @@ const cardImgMap = {
   11: Card11,
   12: Card12,
 }
+
+const scenicSpotList = ref([])
 
 const openInfoModal = () => {
   showInfoModal.value = true
@@ -84,15 +87,16 @@ const goHome = () => {
   router.push('/')
 }
 
-const openPunchInModal = (id) => {
-  if(!activeScenicSpotIds.value.includes(id)){
+const openPunchInModal = (item) => {
+  if(!item.status){
     showToast({
       message: '该景点今日未开放',
       position: 'top',
     });
     return
   }
-  currentScenicSpotId.value = id
+  currentScenicSpotId.value = item.id
+  currentScenicSpot.value = item
   showPunchInModal.value = true
 }
 
@@ -104,30 +108,39 @@ const handlePunchIn = async () => {
   const res = await userPunchIn(currentScenicSpotId.value)
   showSuccessToast(res.message || '打卡成功')
   showPunchInCard.value = true;
+  getLotteryInfo()
+  await handleGetUserPunchInLogs()
 }
 
 const getTodayList = async () => {
   const data = await getTodayScenicData()
-  activeScenicSpotIds.value = data.map(i => i.id)
-  punchInSuccessScenicSpotIds.value = data.filter(i => i.hasPunchIn).map(i => i.id)
+  const activeScenicIds = data.map(i => i.id)
+  scenicSpotList.value.forEach(i => {
+    if(activeScenicIds.includes(i.id)){
+      i.status = 1
+    }
+  })
 }
 
 const saveCardToLocal = () => {
-  var canvas = document.createElement("canvas");
-  var context = canvas.getContext("2d");
-  var image = new Image();
-  image.onload = function() {
-    canvas.width = image.width;
-    canvas.height = image.height;
-    context.drawImage(image, 0, 0);
-    var dataURL = canvas.toDataURL("image/png");
-    var link = document.createElement("a");
-    link.download = "image.png";
-    link.href = dataURL;
-    link.click();
-  }
-  console.log('保存图片', cardImgMap[currentScenicSpotId.value])
-  image.src = cardImgMap[currentScenicSpotId.value];
+  // let u = navigator.userAgent
+  // const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1;
+  // const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+  // console.log(999, isAndroid, isIOS)
+  // console.log(9998, window.hitumedia_android_js)
+  // const name = 'test'
+  // if(isAndroid){
+  //   window.hitumedia_android_js[name](imgUrl);
+  // }else if(isIOS){
+  //   window.webkit.messageHandlers[name].postMessage(imgUrl);
+  // }
+  const url = cardImgMap[currentScenicSpotId.value]
+  var a =document.createElement('a');
+  a.href=url;
+  document.body.appendChild(a);
+  a.style.display ='none';
+  a.download ='明信片';
+  a.click();
 }
 
 const getLotteryInfo = async () => {
@@ -135,15 +148,38 @@ const getLotteryInfo = async () => {
   lotteryEnable.value = enable
 }
 
+const handleGetUserPunchInLogs = async () => {
+  const data = await getUserPunchInLogs()
+  const successSid = data.map(i => i.scenic_spot_id)
+  scenicSpotList.value.forEach(i => {
+    if(successSid.includes(i.id)){
+      i.status = 2
+    }
+  })
+}
+
+const punchInIconMap = ref({
+  0: PunchInDisable,
+  1: PunchInEnable,
+  2: PunchInSuccess,
+})
+
 watch(() => showPunchInModal.value, (v) => {
   setTimeout(() => {
     showPunchInCard.value = false
   }, 500)
 })
 
-onBeforeMount(() => {
-  getTodayList()
+onBeforeMount(async () => {
+  for (let i = 1; i<=12; i++){
+    scenicSpotList.value.push({
+      id: i,
+      status: 0
+    })
+  }
+  await getTodayList()
   getLotteryInfo()
+  await handleGetUserPunchInLogs()
 })
 
 </script>
@@ -161,11 +197,11 @@ onBeforeMount(() => {
         <van-image width="90" :src="GoHomeBtn" @click="goHome"/>
       </div>
       <van-image
-        v-for="index in 12"
-        :class="`punchInIcon${index}`"
+        v-for="item in scenicSpotList"
+        :class="`punchInIcon${item.id}`"
         width="9vw"
-        :src="activeScenicSpotIds.includes(index) ? PunchInEnable : PunchInDisable"
-        @click="openPunchInModal(index)"
+        :src="punchInIconMap[item.status]"
+        @click="openPunchInModal(item)"
       />
     </div>
   </div>
@@ -174,18 +210,19 @@ onBeforeMount(() => {
       <van-image width="60" class="info-modal-back" :src="InfoModalBack" @click="closeInfoModal"/>
     </div>
   </van-popup>
+  {{ currentScenicSpotId }}
   <van-popup v-model:show="showPunchInModal" >
     <div v-if="!showPunchInCard" class="punch-in-modal" :class="`punch-in-modal-${currentScenicSpotId}`">
       <div class="intro">
         {{ scenicSpotMap[currentScenicSpotId].intro }}
       </div>
-      <van-image width="30vw" class="punch-in-modal-btn" :src="PunchInBtn" @click="handlePunchIn"/>
+      <van-image v-if="currentScenicSpot.status === 1" width="30vw" class="punch-in-modal-btn" :src="PunchInBtn" @click="handlePunchIn"/>
+<!--      <van-image width="30vw" class="punch-in-modal-btn" :src="PunchInBtn" @click="handlePunchIn"/>-->
     </div>
     <div v-else>
-      <div class="card-back-btn">
-        <van-image width="15vw" :src="CardSaveBtn" @click="saveCardToLocal" style="margin-right: 10px"/>
-        <van-image width="15vw" :src="CardBack" @click="closePunchInModal"/>
-      </div>
+      <van-image class="card-save-btn" width="15vw" :src="CardSaveBtn" @click="saveCardToLocal" style="margin-right: 10px"/>
+      <van-image class="card-lottery-btn" width="15vw" :src="PunchInModalLottery" @click="openLotteryModal"/>
+      <van-image class="card-back-btn" width="15vw" :src="CardBack" @click="closePunchInModal"/>
       <van-image class="punch-in-modal-card" :src="cardImgMap[currentScenicSpotId]"/>
     </div>
   </van-popup>
@@ -209,7 +246,7 @@ onBeforeMount(() => {
   }
 }
 .info-modal{
-  width: 80vw;
+  width: 90vw;
   height: 500px;
   background: url("@/assets/images/scenicSpot/info-modal.png") no-repeat;
   background-size: 100% 100%;
@@ -281,11 +318,11 @@ onBeforeMount(() => {
   left: 34vw;
 }
 .punch-in-modal{
-  width: 80vw;
+  width: 90vw;
   position: relative;
   .punch-in-modal-btn{
     position: absolute;
-    bottom: 6%;
+    bottom: 3%;
     left: 32%;
   }
   .punch-in-modal-back{
@@ -309,6 +346,18 @@ onBeforeMount(() => {
   z-index: 1;
   right: 5vw;
 }
+.card-lottery-btn{
+  position: absolute;
+  top: 16vw;
+  z-index: 1;
+  right: 5vw;
+}
+.card-save-btn{
+  position: absolute;
+  bottom: 6vw;
+  z-index: 1;
+  left: 5vw;
+}
 
 .punch-in-modal-1{
   height: 500px;
@@ -317,57 +366,57 @@ onBeforeMount(() => {
 }
 .punch-in-modal-2{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-2.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-3{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-3.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-4{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-4.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-5{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-5.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-6{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-6.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-7{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-7.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-8{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-8.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-9{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-9.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-10{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-10.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-11{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-11.png") no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-12{
   height: 500px;
-  background: url("@/assets/images/scenicSpot/punchIn-modal-1.png") no-repeat;
+  background: url("@/assets/images/scenicSpot/punchIn-modal-12.png") no-repeat;
   background-size: 100% 100%;
 }
 

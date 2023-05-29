@@ -95,7 +95,14 @@ const getLotteryInfo = async (onlyUpdateCount = false) => {
     id: 0,
     name: '谢谢'
   })
-  prizeListOrigin.value = _.shuffle([...config, ...emptyPrize])
+  config.forEach(i => {
+    prizeListOrigin.value.push(i)
+    prizeListOrigin.value.push({
+      id: 0,
+      name: '谢谢'
+    })
+  })
+  // prizeListOrigin.value = _.shuffle([...config, ...emptyPrize])
 }
 
 const showLogs = ref(false)
@@ -123,7 +130,7 @@ onBeforeMount(() => {
         class="wheel-pointer"
         @click="onClickRotate"
       >
-        Start
+<!--        Start-->
       </div>
       <div
         class="wheel-bg"
@@ -141,7 +148,7 @@ onBeforeMount(() => {
               :style="`transform: rotate(${(360/ prizeList.length) * index}deg)`"
             >
               <div class="prize-name">
-                {{ item.name }}
+<!--                {{ item.name }}-->
               </div>
               <!--            <div class="prize-icon">-->
               <!--              <img :src="item.icon">-->
@@ -182,8 +189,8 @@ onBeforeMount(() => {
 
 <style scoped lang="scss">
 .wheel-wrapper {
-  width: 300px;
-  height: 300px;
+  width: 90vw;
+  height: 90vw;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -191,10 +198,12 @@ onBeforeMount(() => {
 }
 
 .wheel-pointer {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 85px;
   border-radius: 1000px;
-  background: yellow;
+  //background: yellow;
+  background: url("@/assets/images/lottery/wheel-center.png") no-repeat;
+  background-size: 100% 100%;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -204,18 +213,35 @@ onBeforeMount(() => {
   z-index: 10;
 }
 .wheel-bg {
+  position: relative;
+
   width: 100%;
   height: 100%;
   border-radius: 1000px;
   overflow: hidden;
   transition: transform 4s ease-in-out;
-  background: #7EEF97;
+  //background: #7EEF97;
 
   &.freeze {
     transition: none;
     background: red;
   }
 }
+.wheel-bg:before {
+
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  //top: -50%;
+  //left: -50%;
+  z-index: -1;
+  background: url("@/assets/images/lottery/wheel.png") no-repeat;
+  background-size: 100% 100%;
+  -webkit-transform: rotate(25deg);
+  transform: rotate(25deg);
+}
+
 
 .prize-list {
   width: 100%;
@@ -246,6 +272,7 @@ onBeforeMount(() => {
 }
 
 .bg{
+  overflow: hidden;
   width: 100vw;
   height: 100vh;
   margin: 0;

@@ -102,8 +102,8 @@ onBeforeMount(async () => {
     position: absolute;
     left: 10%;
     top: 30%;
-    width: 80%;
-    height: 28%;
+    width: 80vw;
+    height: 60vw;
     background: linear-gradient(white, rgb(234,249,252));
     border-radius: 10px;
     box-shadow: 2px 3px 1px 0 rgb(120, 199, 226);

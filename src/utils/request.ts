@@ -3,6 +3,7 @@ import config from "@/config/app.config";
 import servers from "@/config/servers";
 import { showToast, showFailToast } from 'vant';
 import { useUserStore } from "@/stores/user";
+import { useRouter } from 'vue-router';
 
 const getErrorMessage = (status: number) => {
   switch (status) {
@@ -57,11 +58,19 @@ const request = (
   };
 
   const handlerError = (error: any, reject: any) => {
+    const router = useRouter();
     let message = "";
     // 网络断开时的提示
     if (!error.response) {
       showFailToast('网络连接错误');
       reject(error);
+      return;
+    }
+    if(error.response.status === 401){
+      showToast('登录凭证无效或过期，请重新登录')
+      setTimeout(() => {
+        router.push('/')
+      }, 2000)
       return;
     }
     if (error.response.data && error.response.data.message) {
