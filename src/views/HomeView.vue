@@ -3,6 +3,7 @@ import { ref, onBeforeMount } from 'vue';
 import { userLogin, updateResidentType, me } from '@/services';
 import { useUserStore } from "@/stores/user";
 import { useRouter } from 'vue-router';
+import {showToast} from "vant";
 
 const router = useRouter();
 
@@ -14,6 +15,10 @@ const residentType = ref(1);
 const pageState = ref(1);
 
 const login = async () => {
+  if(tel.value.length !== 11){
+    showToast('手机号码不合法')
+    return
+  }
   const {resident_type, token} = await userLogin(tel.value)
   userStore.updateToken(token);
   if(!resident_type){
@@ -168,7 +173,7 @@ onBeforeMount(async () => {
 }
 .dv-flex{
   display: flex;
-  margin: 35px 30px 0 30px;
+  margin: 35px 20px 0 20px;
   justify-content: space-between;
 }
 </style>
