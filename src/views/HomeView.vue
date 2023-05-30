@@ -164,7 +164,7 @@ onBeforeMount(async () => {
   }
 }
 .dv-radio{
-  margin: 30px 30px 0 30px;
+  margin: 30px 20px 0 20px;
 }
 .dv-flex{
   display: flex;

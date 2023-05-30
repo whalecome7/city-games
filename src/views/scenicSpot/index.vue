@@ -210,7 +210,6 @@ onBeforeMount(async () => {
       <van-image width="60" class="info-modal-back" :src="InfoModalBack" @click="closeInfoModal"/>
     </div>
   </van-popup>
-  {{ currentScenicSpotId }}
   <van-popup v-model:show="showPunchInModal" >
     <div v-if="!showPunchInCard" class="punch-in-modal" :class="`punch-in-modal-${currentScenicSpotId}`">
       <div class="intro">
