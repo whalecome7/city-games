@@ -11,6 +11,7 @@ import PunchInEnable from '@/assets/images/scenicSpot/punchIn-enable.png';
 import PunchInSuccess from '@/assets/images/scenicSpot/punchIn-success.png';
 import InfoModalBack from '@/assets/images/scenicSpot/info-modal-back.png';
 import PunchInBtn from '@/assets/images/scenicSpot/punchIn-btn.png';
+import PunchInShowCardBtn from '@/assets/images/scenicSpot/punchIn-show-card-btn.png';
 import PunchInBack from '@/assets/images/scenicSpot/punchIn-back.png';
 import CardBack from '@/assets/images/scenicSpot/card-back.png';
 import CardSaveBtn from '@/assets/images/scenicSpot/card-save-btn.png';
@@ -203,11 +204,16 @@ onBeforeMount(async () => {
         :src="punchInIconMap[item.status]"
         @click="openPunchInModal(item)"
       />
+      <div
+        v-for="item in scenicSpotList"
+        :class="[`punchInIcon${item.id}`, {'hot-area1': item.id === 1,'hot-area': item.id !== 1}]"
+        @click="openPunchInModal(item)"
+      />
     </div>
   </div>
   <van-popup v-model:show="showInfoModal" >
     <div class="info-modal">
-      <van-image width="60" class="info-modal-back" :src="InfoModalBack" @click="closeInfoModal"/>
+<!--      <van-image width="60" class="info-modal-back" :src="InfoModalBack" @click="closeInfoModal"/>-->
     </div>
   </van-popup>
   <van-popup v-model:show="showPunchInModal" >
@@ -216,10 +222,15 @@ onBeforeMount(async () => {
         {{ scenicSpotMap[currentScenicSpotId].intro }}
       </div>
       <van-image v-if="currentScenicSpot.status === 1" width="30vw" class="punch-in-modal-btn" :src="PunchInBtn" @click="handlePunchIn"/>
+      <div v-if="currentScenicSpot.status === 2">
+        <div class="punch-in-modal-btn-text" @click="() => {showPunchInCard = true}">查看明信片</div>
+        <van-image  width="30vw" class="punch-in-modal-btn" :src="PunchInShowCardBtn" @click="() => {showPunchInCard = true}"/>
+      </div>
+
 <!--      <van-image width="30vw" class="punch-in-modal-btn" :src="PunchInBtn" @click="handlePunchIn"/>-->
     </div>
     <div v-else>
-      <van-image class="card-save-btn" width="15vw" :src="CardSaveBtn" @click="saveCardToLocal" style="margin-right: 10px"/>
+<!--      <van-image class="card-save-btn" width="15vw" :src="CardSaveBtn" @click="saveCardToLocal" style="margin-right: 10px"/>-->
       <van-image class="card-lottery-btn" width="15vw" :src="PunchInModalLottery" @click="openLotteryModal"/>
       <van-image class="card-back-btn" width="15vw" :src="CardBack" @click="closePunchInModal"/>
       <van-image class="punch-in-modal-card" :src="cardImgMap[currentScenicSpotId]"/>
@@ -245,8 +256,8 @@ onBeforeMount(async () => {
   }
 }
 .info-modal{
-  width: 90vw;
-  height: 500px;
+  width: 80vw;
+  height: 132vw;
   background: url("@/assets/images/scenicSpot/info-modal.png") no-repeat;
   background-size: 100% 100%;
   position: relative;
@@ -256,6 +267,23 @@ onBeforeMount(async () => {
     right: 9%;
   }
 }
+.hot-area1{
+  //background-color: pink;
+  z-index: 2;
+  opacity: 0.5;
+  width: 9vw;
+  height: 9vw;
+  padding: 25vw;
+}
+.hot-area{
+  //background-color: pink;
+  z-index: 1;
+  opacity: 0.5;
+  width: 9vw;
+  height: 9vw;
+  //padding: 50px;
+  transform:scale(4);
+}
 .punchInIcon1{
   position: absolute;
   top: 81vw;
@@ -263,7 +291,7 @@ onBeforeMount(async () => {
 }
 .punchInIcon2{
   position: absolute;
-  top: 130vw;
+  top: 136vw;
   left: 29vw;
 }
 .punchInIcon3{
@@ -278,13 +306,13 @@ onBeforeMount(async () => {
 }
 .punchInIcon5{
   position: absolute;
-  top: 317vw;
-  right: 40vw;
+  top: 305vw;
+  right: 57vw;
 }
 .punchInIcon6{
   position: absolute;
-  top: 360vw;
-  left: 23vw;
+  top: 364vw;
+  left: 15vw;
 }
 .punchInIcon7{
   position: absolute;
@@ -321,8 +349,19 @@ onBeforeMount(async () => {
   position: relative;
   .punch-in-modal-btn{
     position: absolute;
-    bottom: 3%;
-    left: 32%;
+    bottom: 5%;
+    left: 33%;
+  }
+  .punch-in-modal-btn-text{
+    color: white;
+    position: absolute;
+    bottom: 5%;
+    /* left: 37%; */
+    z-index: 3;
+    font-weight: 500;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
   }
   .punch-in-modal-back{
     position: absolute;

@@ -7,12 +7,24 @@ import LogBtnImg from "@/assets/images/lottery/log-btn.png"
 import BackBtnImg from "@/assets/images/lottery/back-btn.png"
 import LogBackBtnImg from "@/assets/images/lottery/log-back-btn.png"
 
+import Prize1 from "@/assets/images/lottery/prize1.png"
+import Prize2 from "@/assets/images/lottery/prize2.png"
+import Prize3 from "@/assets/images/lottery/prize3.png"
+import Prize4 from "@/assets/images/lottery/prize4.png"
+
 import { getUserLotteryInfo, openUserLottery, getPrizeInfo } from "@/services";
 
 const router = useRouter()
 
 const goBack = () => {
   router.back()
+}
+
+const prizeMap = {
+  1: Prize1,
+  2: Prize2,
+  3: Prize3,
+  4: Prize4,
 }
 
 const freeze = ref(false)
@@ -33,6 +45,7 @@ const onClickRotate = async () => {
     return;
   }
   const { lottery_id, lottery_info, status } = await openUserLottery();
+  // const { lottery_id, lottery_info, status } = {lottery_id: 1, lottery_info: {id: 1, name:'特等奖'}}
   if(status){
     showMakePrizeNoCountModal.value = true
     return
@@ -175,6 +188,7 @@ onBeforeMount(() => {
     </van-popup>
     <van-popup v-model:show="showMakePrizeModal">
       <div :class="makePrizeInfo ? 'make-prize-modal' : 'empty-prize-modal'">
+        <van-image v-if="makePrizeInfo" class="make-prize-img" width="40vw" :src="prizeMap[makePrizeInfo.id]"/>
         <div v-if="makePrizeInfo" class="make-prize-text">
           恭喜您获得 {{ makePrizeInfo.name }}
         </div>
@@ -192,21 +206,21 @@ onBeforeMount(() => {
   width: 90vw;
   height: 90vw;
   position: absolute;
-  top: 50%;
+  top: 48%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .wheel-pointer {
-  width: 70px;
-  height: 85px;
+  width: 24vw;
+  height: 30vw;
   border-radius: 1000px;
   //background: yellow;
   background: url("@/assets/images/lottery/wheel-center.png") no-repeat;
   background-size: 100% 100%;
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 46%;
   transform: translate(-50%, -50%);
   text-align: center;
   line-height: 60px;
@@ -336,8 +350,14 @@ onBeforeMount(() => {
   background-size: 100% 100%;
   .make-prize-text{
     position: absolute;
-    bottom: 100px;
-    left: 30px;
+    width: 100%;
+    text-align: center;
+    bottom: 23vw;
+  }
+  .make-prize-img{
+    position: absolute;
+    top: 22vw;
+    left: 20vw;
   }
 }
 .empty-prize-modal{

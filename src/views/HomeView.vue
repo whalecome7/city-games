@@ -5,6 +5,8 @@ import { useUserStore } from "@/stores/user";
 import { useRouter } from 'vue-router';
 import {showToast} from "vant";
 
+import InfoModalBack from '@/assets/images/scenicSpot/info-modal-back.png';
+
 const router = useRouter();
 
 const userStore = useUserStore();
@@ -38,6 +40,14 @@ const jump = async () => {
   }
   router.push('/scenic-spots');
 }
+const showInfoModal = ref(false)
+
+const openTip = () => {
+  showInfoModal.value = true
+}
+const closeInfoModal = () => {
+  showInfoModal.value = false
+}
 
 onBeforeMount(async () => {
   // todo 是否自动登录
@@ -67,6 +77,9 @@ onBeforeMount(async () => {
           <div class="dv-start" @click="login">
             开始游记
           </div>
+          <div class="dv-tip" @click="openTip">
+            游记锦囊
+          </div>
         </div>
       </div>
       <div v-else>
@@ -83,7 +96,7 @@ onBeforeMount(async () => {
         </div>
         <div class="dv-flex">
           <div class="dv-jump" @click="jump">
-            开始游记
+            开始打卡
           </div>
           <div class="go-back" @click="handleBack">
             返回
@@ -92,6 +105,11 @@ onBeforeMount(async () => {
       </div>
     </div>
   </div>
+  <van-popup v-model:show="showInfoModal" >
+    <div class="info-modal">
+<!--      <van-image width="60" class="info-modal-back" :src="InfoModalBack" @click="closeInfoModal"/>-->
+    </div>
+  </van-popup>
 </template>
 
 <style scoped lang="scss">
@@ -108,7 +126,7 @@ onBeforeMount(async () => {
     left: 10%;
     top: 30%;
     width: 80vw;
-    height: 60vw;
+    height: 72vw;
     background: linear-gradient(white, rgb(234,249,252));
     border-radius: 10px;
     box-shadow: 2px 3px 1px 0 rgb(120, 199, 226);
@@ -129,6 +147,17 @@ onBeforeMount(async () => {
 .dv-start{
   text-align: center;
   background: url(@/assets/images/login/start-long-btn.png) no-repeat;
+  background-size: 100%;
+  line-height: 37px;
+  height: 40px;
+  margin: 20px 30px;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+.dv-tip{
+  text-align: center;
+  background: url(@/assets/images/login/tip-btn.png) no-repeat;
   background-size: 100%;
   line-height: 37px;
   height: 40px;
@@ -169,11 +198,23 @@ onBeforeMount(async () => {
   }
 }
 .dv-radio{
-  margin: 30px 20px 0 20px;
+  margin: 50px 20px 0 20px;
 }
 .dv-flex{
   display: flex;
-  margin: 35px 20px 0 20px;
+  margin: 50px 20px 0 20px;
   justify-content: space-between;
+}
+.info-modal{
+  width: 80vw;
+  height: 132vw;
+  background: url("@/assets/images/scenicSpot/info-modal.png") no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  .info-modal-back{
+    position: absolute;
+    bottom: 5%;
+    right: 9%;
+  }
 }
 </style>
