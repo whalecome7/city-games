@@ -35,3 +35,7 @@ export const getPrizeInfo = () => {
 export const getUserPunchInLogs = () => {
   return request('GET', '/scenicSpots/getUserPunchInLogs')
 }
+
+export const answerQuestion = params => {
+  return request('GET', 'answer', params)
+}

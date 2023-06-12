@@ -30,13 +30,16 @@ import Card11 from '@/assets/images/scenicSpot/card-11.jpg'
 import Card12 from '@/assets/images/scenicSpot/card-12.jpg'
 import PunchInModalLottery from '@/assets/images/scenicSpot/punchIn-modal-lottery-btn.png'
 
+import AnswerSuccessImg from '@/assets/images/answer/success.png'
+import AnswerErrorImg from '@/assets/images/answer/error.png'
+
 import { showToast, showSuccessToast } from 'vant'
 
 import { scenicSpotMap } from '@/utils/dataMap/scenicSpot'
 
 import { ref, onBeforeMount, watch, getCurrentInstance } from 'vue'
 
-import { getTodayScenicData, getUserLotteryInfo, userPunchIn, getUserPunchInLogs } from '@/services'
+import { getTodayScenicData, getUserLotteryInfo, userPunchIn, getUserPunchInLogs, answerQuestion } from '@/services'
 
 import { useRouter } from 'vue-router'
 
@@ -104,6 +107,10 @@ const openPunchInModal = (item) => {
   currentScenicSpotId.value = item.id
   currentScenicSpot.value = item
   showPunchInModal.value = true
+  if(item.status === 2){
+    //打开明星片页面
+    showPunchInCard.value = true
+  }
 }
 
 const closePunchInModal = () => {
@@ -135,16 +142,49 @@ const handlePunchIn = async () => {
     //回答正确
     console.log('正确')
     showToast({
-      message: '自定义图片',
-      icon: '@/assets/images/scenicSpot/info-modal.png'
+      icon: AnswerSuccessImg,
+      iconSize: '20rem',
+      className: 'answer-result',
     })
-    // const res = await userPunchIn(currentScenicSpotId.value)
+
     // showSuccessToast(res.message || '打卡成功')
     // showPunchInCard.value = true
     // getLotteryInfo()
-    // await handleGetUserPunchInLogs()
+
+    await userPunchIn(currentScenicSpotId.value)
+    const questionParams = {
+      'scenic_spot_id': currentScenicSpotId.value,
+      'is_correct': 1,
+      'params' : JSON.stringify({
+        selOption: selOption.value
+      })
+    }
+    await answerQuestion(questionParams)
+    setTimeout(() => {
+      showPunchInCard.value = true
+    }, 2000)
+    await handleGetUserPunchInLogs()
+
   } else {
     // 回答错误
+    showToast({
+      icon: AnswerErrorImg,
+      iconSize: '20rem',
+      className: 'answer-result',
+    })
+    await userPunchIn(currentScenicSpotId.value)
+    const questionParams = {
+      'scenic_spot_id': currentScenicSpotId.value,
+      'is_correct': 0,
+      'params' : JSON.stringify({
+        selOption: selOption.value
+      })
+    }
+    await answerQuestion(questionParams)
+    setTimeout(() => {
+      showPunchInCard.value = true
+    }, 2000)
+    await handleGetUserPunchInLogs()
     console.log('错误')
   }
 }
@@ -152,9 +192,10 @@ const handlePunchIn = async () => {
 const getTodayList = async () => {
   const data = await getTodayScenicData()
   const activeScenicIds = data.map((i) => i.id)
+
   scenicSpotList.value.forEach((i) => {
     if (activeScenicIds.includes(i.id)) {
-      i.status = 2
+      i.status = 1
     }
   })
 }
@@ -193,6 +234,8 @@ const handleGetUserPunchInLogs = async () => {
       i.status = 2
     }
   })
+
+
 }
 
 const punchInIconMap = ref({
@@ -208,9 +251,9 @@ watch(
     selOptionA.value = false
     selOptionB.value = false
     selOptionC.value = false
-    setTimeout(() => {
+    if(!v){
       showPunchInCard.value = false
-    }, 500)
+    }
   }
 )
 
@@ -218,7 +261,7 @@ onBeforeMount(async () => {
   for (let i = 1; i <= 12; i++) {
     scenicSpotList.value.push({
       id: i,
-      status: 1
+      status: 0
     })
   }
   await getTodayList()
@@ -595,5 +638,13 @@ onBeforeMount(async () => {
   height: 500px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-12.png') no-repeat;
   background-size: 100% 100%;
+}
+
+</style>
+<style lang="scss">
+.answer-result{
+  background: none !important;
+  width: 90vw !important;
+  overflow: hidden;
 }
 </style>
