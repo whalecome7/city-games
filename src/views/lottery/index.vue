@@ -180,7 +180,7 @@ onBeforeMount(() => {
     <van-popup v-model:show="showLogs">
       <div :class="prizeInfo ? 'log-modal' : 'log-empty-modal'">
         <div class="prize-text" v-if="prizeInfo">
-          <div>奖品：{{ prizeInfo.info.name }}</div>
+          <div>奖项：{{ prizeInfo.info.name }}</div>
           <div>时间：{{ prizeInfo.time }}</div>
         </div>
         <van-image class="log-back-btn" width="80px" :src="LogBackBtnImg" @click="closeLogsModal"/>
@@ -321,7 +321,7 @@ onBeforeMount(() => {
 }
 .log-modal{
   width: 80vw;
-  height: 90vw;
+  height: 100vw;
   position: relative;
   background: url("@/assets/images/lottery/log-bg.png") no-repeat;
   background-size: 100% 100%;
@@ -335,12 +335,12 @@ onBeforeMount(() => {
 }
 .log-back-btn{
   position: absolute;
-  bottom: 40px;
+  bottom: 20px;
   right: 20px;
 }
 .prize-text{
   position: absolute;
-  padding: 80px 30px 0 30px;
+  padding: 60px 30px 0 30px;
 }
 .make-prize-modal{
   width: 80vw;

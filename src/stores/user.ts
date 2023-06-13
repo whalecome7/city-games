@@ -3,12 +3,17 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
   const token = ref(localStorage.getItem('token') || '')
-  console.log(111, token)
+
+  const isFromLogin = ref(false)
+
   function updateToken(val: string) {
     token.value = val
     localStorage.setItem('token', val)
-    console.log(222, token)
   }
 
-  return { token, updateToken }
+  function updateIsFromLogin(val: boolean) {
+    isFromLogin.value = val
+  }
+
+  return { token, updateToken, isFromLogin, updateIsFromLogin }
 })

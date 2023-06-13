@@ -26,7 +26,8 @@ const login = async () => {
   if(!resident_type){
     pageState.value = 2
   }else{
-    router.push('/scenic-spots');
+    userStore.updateIsFromLogin(true)
+    router.push('/scenic-spots')
   }
 }
 
@@ -38,7 +39,8 @@ const jump = async () => {
   if(pageState.value === 2){
     await updateResidentType(residentType.value);
   }
-  router.push('/scenic-spots');
+  userStore.updateIsFromLogin(true)
+  router.push('/scenic-spots')
 }
 const showInfoModal = ref(false)
 

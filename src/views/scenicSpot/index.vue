@@ -41,14 +41,13 @@ import { ref, onBeforeMount, watch, getCurrentInstance } from 'vue'
 
 import { getTodayScenicData, getUserLotteryInfo, userPunchIn, getUserPunchInLogs, answerQuestion } from '@/services'
 
-import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { useRouter, onBeforeRouteUpdate } from 'vue-router'
+
+import { useUserStore } from "@/stores/user";
 
 const router = useRouter()
 
-router.beforeEach((to, from, next) => {
-  console.log(111111, params)
-})
-
+const userStore = useUserStore();
 
 // 活动规则弹窗
 const showInfoModal = ref(false)
@@ -268,11 +267,11 @@ watch(
 )
 
 
-onBeforeRouteUpdate((to, from) => {
-  console.log(777, to ,from)
-})
-
 onBeforeMount(async () => {
+  if(userStore.isFromLogin){
+    showInfoModal.value = true
+    userStore.updateIsFromLogin(false)
+  }
   for (let i = 1; i <= 12; i++) {
     scenicSpotList.value.push({
       id: i,
