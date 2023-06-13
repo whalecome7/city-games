@@ -41,9 +41,14 @@ import { ref, onBeforeMount, watch, getCurrentInstance } from 'vue'
 
 import { getTodayScenicData, getUserLotteryInfo, userPunchIn, getUserPunchInLogs, answerQuestion } from '@/services'
 
-import { useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 
 const router = useRouter()
+
+router.beforeEach((to, from, next) => {
+  console.log(111111, params)
+})
+
 
 // 活动规则弹窗
 const showInfoModal = ref(false)
@@ -262,9 +267,9 @@ watch(
   }
 )
 
+
 onBeforeRouteUpdate((to, from) => {
-  //仅当 id 更改时才获取用户，例如仅 query 或 hash 值已更改
-  console.log(99999, to, from)
+  console.log(777, to ,from)
 })
 
 onBeforeMount(async () => {
