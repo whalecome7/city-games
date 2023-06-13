@@ -45,6 +45,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+// 活动规则弹窗
 const showInfoModal = ref(false)
 const showPunchInModal = ref(false)
 const showPunchInCard = ref(false)
@@ -252,7 +253,9 @@ watch(
     selOptionB.value = false
     selOptionC.value = false
     if(!v){
-      showPunchInCard.value = false
+      setTimeout(() => {
+        showPunchInCard.value = false
+      }, 500)
     }
   }
 )
