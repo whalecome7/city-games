@@ -190,7 +190,7 @@ onBeforeMount(() => {
       <div :class="makePrizeInfo ? 'make-prize-modal' : 'empty-prize-modal'">
         <van-image v-if="makePrizeInfo" class="make-prize-img" width="40vw" :src="prizeMap[makePrizeInfo.id]"/>
         <div v-if="makePrizeInfo" class="make-prize-text">
-          恭喜您获得 {{ makePrizeInfo.name }}
+          恭喜您获得 <span class="prize-name-span">{{ makePrizeInfo.name }}</span>
         </div>
       </div>
     </van-popup>
@@ -373,5 +373,11 @@ onBeforeMount(() => {
   position: relative;
   background: url("@/assets/images/lottery/prize-no-count.png") no-repeat;
   background-size: 100% 100%;
+}
+.prize-name-span{
+  color: red;
+  font-size: 24px;
+  font-weight: 500;
+  margin-left: 12px;
 }
 </style>

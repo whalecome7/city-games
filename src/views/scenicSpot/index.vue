@@ -41,7 +41,7 @@ import { ref, onBeforeMount, watch, getCurrentInstance } from 'vue'
 
 import { getTodayScenicData, getUserLotteryInfo, userPunchIn, getUserPunchInLogs, answerQuestion } from '@/services'
 
-import { useRouter } from 'vue-router'
+import { useRouter, onBeforeRouteUpdate } from 'vue-router'
 
 const router = useRouter()
 
@@ -146,6 +146,7 @@ const handlePunchIn = async () => {
       icon: AnswerSuccessImg,
       iconSize: '20rem',
       className: 'answer-result',
+      duration: 5000,
     })
 
     // showSuccessToast(res.message || '打卡成功')
@@ -163,7 +164,7 @@ const handlePunchIn = async () => {
     await answerQuestion(questionParams)
     setTimeout(() => {
       showPunchInCard.value = true
-    }, 2000)
+    }, 5000)
     await handleGetUserPunchInLogs()
 
   } else {
@@ -172,6 +173,7 @@ const handlePunchIn = async () => {
       icon: AnswerErrorImg,
       iconSize: '20rem',
       className: 'answer-result',
+      duration: 5000,
     })
     await userPunchIn(currentScenicSpotId.value)
     const questionParams = {
@@ -184,7 +186,7 @@ const handlePunchIn = async () => {
     await answerQuestion(questionParams)
     setTimeout(() => {
       showPunchInCard.value = true
-    }, 2000)
+    }, 5000)
     await handleGetUserPunchInLogs()
     console.log('错误')
   }
@@ -260,6 +262,11 @@ watch(
   }
 )
 
+onBeforeRouteUpdate((to, from) => {
+  //仅当 id 更改时才获取用户，例如仅 query 或 hash 值已更改
+  console.log(99999, to, from)
+})
+
 onBeforeMount(async () => {
   for (let i = 1; i <= 12; i++) {
     scenicSpotList.value.push({
@@ -332,28 +339,28 @@ onBeforeMount(async () => {
         :src="OkBtn"
         @click="handlePunchIn"
       />
-      <div v-if="currentScenicSpot.status === 2">
-        <div
-          class="punch-in-modal-btn-text"
-          @click="
-            () => {
-              showPunchInCard = true
-            }
-          "
-        >
-          查看明信片
-        </div>
-        <van-image
-          width="30vw"
-          class="punch-in-modal-btn"
-          :src="PunchInShowCardBtn"
-          @click="
-            () => {
-              showPunchInCard = true
-            }
-          "
-        />
-      </div>
+<!--      <div v-if="currentScenicSpot.status === 2">-->
+<!--        <div-->
+<!--          class="punch-in-modal-btn-text"-->
+<!--          @click="-->
+<!--            () => {-->
+<!--              showPunchInCard = true-->
+<!--            }-->
+<!--          "-->
+<!--        >-->
+<!--          查看明信片-->
+<!--        </div>-->
+<!--        <van-image-->
+<!--          width="30vw"-->
+<!--          class="punch-in-modal-btn"-->
+<!--          :src="PunchInShowCardBtn"-->
+<!--          @click="-->
+<!--            () => {-->
+<!--              showPunchInCard = true-->
+<!--            }-->
+<!--          "-->
+<!--        />-->
+<!--      </div>-->
 
       <!--      <van-image width="30vw" class="punch-in-modal-btn" :src="PunchInBtn" @click="handlePunchIn"/>-->
     </div>
@@ -478,7 +485,7 @@ onBeforeMount(async () => {
   left: 34vw;
 }
 .punch-in-modal {
-  width: 90vw;
+  width: 85vw;
   position: relative;
   .punch-in-modal-btn {
     position: absolute;
@@ -502,7 +509,7 @@ onBeforeMount(async () => {
     right: 9%;
   }
   .intro {
-    padding: 240px 30px 0 30px;
+    padding: 300px 30px 0 30px;
     font-size: 12px;
     .optionA {
       width: 100%;
@@ -583,62 +590,62 @@ onBeforeMount(async () => {
 }
 
 .punch-in-modal-1 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-1.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-2 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-2.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-3 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-3.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-4 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-4.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-5 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-5.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-6 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-6.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-7 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-7.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-8 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-8.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-9 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-9.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-10 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-10.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-11 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-11.png') no-repeat;
   background-size: 100% 100%;
 }
 .punch-in-modal-12 {
-  height: 500px;
+  height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-12.png') no-repeat;
   background-size: 100% 100%;
 }
