@@ -352,7 +352,7 @@ onBeforeMount(() => {
     position: absolute;
     width: 100%;
     text-align: center;
-    bottom: 23vw;
+    bottom: 21vw;
   }
   .make-prize-img{
     position: absolute;
@@ -376,7 +376,7 @@ onBeforeMount(() => {
 }
 .prize-name-span{
   color: red;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
   margin-left: 12px;
 }

@@ -146,12 +146,6 @@ const handlePunchIn = async () => {
   if (selOption.value == scenicSpotMap[currentScenicSpotId.value].correctAnswer) {
     //回答正确
     console.log('正确')
-    showToast({
-      icon: AnswerSuccessImg,
-      iconSize: '20rem',
-      className: 'answer-result',
-      duration: 5000,
-    })
 
     // showSuccessToast(res.message || '打卡成功')
     // showPunchInCard.value = true
@@ -168,17 +162,20 @@ const handlePunchIn = async () => {
     await answerQuestion(questionParams)
     setTimeout(() => {
       showPunchInCard.value = true
-    }, 5000)
+    }, 4500)
     await handleGetUserPunchInLogs()
+    setTimeout(() => {
+      showToast({
+        icon: AnswerSuccessImg,
+        iconSize: '20rem',
+        className: 'answer-result',
+        duration: 4000,
+      })
+    }, 500)
 
   } else {
     // 回答错误
-    showToast({
-      icon: AnswerErrorImg,
-      iconSize: '20rem',
-      className: 'answer-result',
-      duration: 5000,
-    })
+
     await userPunchIn(currentScenicSpotId.value)
     const questionParams = {
       'scenic_spot_id': currentScenicSpotId.value,
@@ -190,8 +187,16 @@ const handlePunchIn = async () => {
     await answerQuestion(questionParams)
     setTimeout(() => {
       showPunchInCard.value = true
-    }, 5000)
+    }, 4500)
     await handleGetUserPunchInLogs()
+    setTimeout(() => {
+      showToast({
+        icon: AnswerErrorImg,
+        iconSize: '20rem',
+        className: 'answer-result',
+        duration: 4000,
+      })
+    }, 500)
     console.log('错误')
   }
 }
