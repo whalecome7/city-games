@@ -51,6 +51,10 @@ const closeInfoModal = () => {
   showInfoModal.value = false
 }
 
+const preLoadImg = () => {
+  // 预加载图片
+}
+
 onBeforeMount(async () => {
   // todo 是否自动登录
   // if(userStore.token){
@@ -90,7 +94,7 @@ onBeforeMount(async () => {
         </div>
         <div class="row">
           <div class="dv-radio">
-            <van-radio-group v-model="residentType" direction="horizontal">
+            <van-radio-group v-model="residentType" direction="horizontal" style="justify-content: center;">
               <van-radio :name="1"  icon-size="20px" checked-color="#E68C3C">福州本地人</van-radio>
               <van-radio :name="2"  icon-size="20px" checked-color="#E68C3C">福州新市民</van-radio>
             </van-radio-group>
@@ -103,6 +107,9 @@ onBeforeMount(async () => {
           <div class="go-back" @click="handleBack">
             返回
           </div>
+        </div>
+        <div class="dv-desc">
+          福州新市民是指因本人创业就业、子女上学、投靠子女等原因到福州常住的市民，未获得福州户籍或获得福州户籍不满三年。
         </div>
       </div>
     </div>
@@ -128,7 +135,7 @@ onBeforeMount(async () => {
     left: 10%;
     top: 30%;
     width: 80vw;
-    height: 72vw;
+    height: 78vw;
     background: linear-gradient(white, rgb(234,249,252));
     border-radius: 10px;
     box-shadow: 2px 3px 1px 0 rgb(120, 199, 226);
@@ -204,7 +211,7 @@ onBeforeMount(async () => {
 }
 .dv-flex{
   display: flex;
-  margin: 50px 20px 0 20px;
+  margin: 30px 20px 0 20px;
   justify-content: space-between;
 }
 .info-modal{
@@ -218,5 +225,11 @@ onBeforeMount(async () => {
     bottom: 5%;
     right: 9%;
   }
+}
+.dv-desc{
+  width: 100%;
+  font-size: 12px;
+  padding: 8px 20px;
+  color: gray;
 }
 </style>

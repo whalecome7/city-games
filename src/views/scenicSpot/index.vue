@@ -375,14 +375,11 @@ onBeforeMount(async () => {
     </div>
     <div v-else>
       <!--      <van-image class="card-save-btn" width="15vw" :src="CardSaveBtn" @click="saveCardToLocal" style="margin-right: 10px"/>-->
-      <van-image
-        class="card-lottery-btn"
-        width="15vw"
-        :src="PunchInModalLottery"
-        @click="openLotteryModal"
-      />
       <van-image class="card-back-btn" width="15vw" :src="CardBack" @click="closePunchInModal" />
       <van-image class="punch-in-modal-card" :src="cardImgMap[currentScenicSpotId]" />
+      <div class="modal-go-to-lottery-btn" @click="openLotteryModal">
+        点击抽奖
+      </div>
     </div>
   </van-popup>
 </template>
@@ -657,6 +654,19 @@ onBeforeMount(async () => {
   height: 600px;
   background: url('@/assets/images/scenicSpot/punchIn-modal-12.png') no-repeat;
   background-size: 100% 100%;
+}
+
+.modal-go-to-lottery-btn{
+  position: absolute;
+  left: calc(50% - 40px);
+  top: 140vw;
+  background: linear-gradient(rgb(240,160,85), rgb(235,115,65));
+  width: 80px;
+  height: 24px;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  line-height: 24px;
 }
 
 </style>
