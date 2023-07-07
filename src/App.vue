@@ -36,11 +36,29 @@ import PunchInModalLottery from '@/assets/images/scenicSpot/punchIn-modal-lotter
 import imageMap1Img from '@/assets/images/scenicSpot/map1.jpg'
 import infoImg from '@/assets/images/scenicSpot/info-modal.png'
 
+import MusicActive from '@/assets/images/common/music-active.gif'
+import MusicDisable from '@/assets/images/common/music-disable.png'
+
 // import VConsole from 'vconsole'
 
 // new VConsole()
 
 const audio = ref()
+
+const musicIsActive = ref(false)
+const firstMusic = ref(false)
+
+const toggle = () => {
+  if(musicIsActive.value){
+    musicIsActive.value = false
+    audio.value.pause()
+
+  }else{
+    musicIsActive.value = true
+    audio.value.currentTime = 0
+    audio.value.play()
+  }
+}
 
 onMounted(() => {
   new Image().src = infoImg;
@@ -58,18 +76,29 @@ onMounted(() => {
   new Image().src = Card4;
   new Image().src = Card5;
   new Image().src = Card6;
+  new Image().src = MusicActive;
 
   document.body.addEventListener('touchstart', () => {
+    if(firstMusic.value){
+      return
+    }
     setTimeout(() => {
       if(audio.value.paused){
         audio.value.play()
+        firstMusic.value = true
+        musicIsActive.value = true
       }
     }, 500)
   })
   document.body.addEventListener('mousedown', () => {
+    if(firstMusic.value){
+      return
+    }
     setTimeout(() => {
       if(audio.value.paused){
         audio.value.play()
+        firstMusic.value = true
+        musicIsActive.value = true
       }
     }, 500)
   })
@@ -83,9 +112,16 @@ onMounted(() => {
   <div style="display: none">
     <audio ref="audio" :src="BgmAudio" autoplay loop controls></audio>
   </div>
+  <van-image v-if="musicIsActive" class="music" width="30px" :src="MusicActive" @click="toggle"/>
+  <van-image v-else class="music" width="30px" :src="MusicDisable" @click="toggle"/>
   <RouterView />
 </template>
 
 <style scoped>
-
+.music{
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+}
 </style>
