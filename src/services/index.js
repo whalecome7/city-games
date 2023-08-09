@@ -4,8 +4,8 @@ export const userLogin = (phone) => {
   return request('GET', '/auth/login', { phone })
 }
 
-export const updateResidentType = (resident_type) => {
-  return request('GET', '/user/updateResidentType', { resident_type })
+export const updateResidentType = (resident_type, invitation_code) => {
+  return request('GET', '/user/updateResidentType', { resident_type, invitation_code })
 }
 
 export const me = () => {

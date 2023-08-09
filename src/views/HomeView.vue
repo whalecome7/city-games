@@ -12,6 +12,7 @@ const router = useRouter();
 const userStore = useUserStore();
 
 const tel = ref();
+const invitationCode = ref();
 const residentType = ref(1);
 
 const pageState = ref(1);
@@ -37,7 +38,7 @@ const handleBack = () => {
 
 const jump = async () => {
   if(pageState.value === 2){
-    await updateResidentType(residentType.value);
+    await updateResidentType(residentType.value, invitationCode.value);
   }
   userStore.updateIsFromLogin(true)
   router.push('/scenic-spots')
@@ -98,6 +99,10 @@ onBeforeMount(async () => {
               <van-radio :name="1"  icon-size="20px" checked-color="#E68C3C">福州本地人</van-radio>
               <van-radio :name="2"  icon-size="20px" checked-color="#E68C3C">福州新市民</van-radio>
             </van-radio-group>
+          </div>
+          <div class="code-input">
+            <div style="width: 100px">推荐工号: </div>
+            <van-field v-model="invitationCode" type="tel" placeholder="请输入推荐工号" style="padding: 8px;" />
           </div>
         </div>
         <div class="dv-flex">
@@ -200,18 +205,27 @@ onBeforeMount(async () => {
   width: 120px;
 }
 .tel-input{
-  margin: 20px 30px;
+  margin: 10px 30px;
   ::v-deep .van-field{
     border-radius: 40px;
     border: 1px solid rgb(137, 202, 184);
   }
 }
+.code-input{
+  margin: 20px 30px;
+  ::v-deep .van-field{
+    border-radius: 40px;
+    border: 1px solid rgb(137, 202, 184);
+  }
+  display: flex;
+  align-items: center;
+}
 .dv-radio{
-  margin: 50px 20px 0 20px;
+  margin: 10px 20px 0 20px;
 }
 .dv-flex{
   display: flex;
-  margin: 30px 20px 0 20px;
+  margin: 20px 20px 0 20px;
   justify-content: space-between;
 }
 .info-modal{
